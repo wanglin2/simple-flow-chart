@@ -3,12 +3,20 @@
     <div class="sfcNormalNodeWrap">
       <div class="sfcNormalNodeContent">
         <div class="sfcNormalNodeTitle">
-          <div class="sfcNormalNodeTitleText">{{ data.title }}</div>
+          {{ data.title || '' }}
+        </div>
+        <div class="sfcNormalNodeData">
+          <div class="sfcNormalNodeDataText">{{ data.content || '' }}</div>
+          <img
+            class="sfcNormalNodeDataIcon"
+            src="../assets/svg/arrow.svg"
+            alt=""
+          />
         </div>
       </div>
       <ArrowLine></ArrowLine>
     </div>
-    <Node v-for="node in data.nodeList" :key="node.id" :data="node"></Node>
+    <Node v-for="node in (data.nodeList || [])" :key="node.id" :data="node"></Node>
   </div>
 </template>
 
@@ -46,8 +54,8 @@ export default {
     align-items: center;
 
     .sfcNormalNodeContent {
-      min-width: 200px;
-      height: 70px;
+      width: 200px;
+      min-height: 70px;
       padding: 5px 10px 8px;
       border: 2px solid transparent;
       border-radius: 8px;
@@ -62,16 +70,33 @@ export default {
         display: flex;
         align-items: center;
         border-radius: 4px 4px 0 0;
-        color: #1f1f1f;
         cursor: pointer;
         font-size: 14px;
         text-align: left;
+        color: #1f1f1f;
+        font-weight: 600;
+        word-break: break-all;
+      }
 
-        .sfcNormalNodeTitleText {
-          margin-left: 6px;
-          color: #1f1f1f;
+      .sfcNormalNodeData {
+        display: flex;
+        min-height: 32px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 4px 8px;
+        margin-top: 10px;
+        background: rgba(0, 0, 0, 0.03);
+        border-radius: 4px;
+
+        .sfcNormalNodeDataText {
+          color: #111f2c;
           font-size: 14px;
-          font-weight: 600;
+          line-height: 32px;
+          word-break: break-all;
+        }
+
+        .sfcNormalNodeDataIcon {
+          width: 20px;
         }
       }
     }

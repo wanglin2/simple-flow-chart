@@ -8,13 +8,14 @@
 
 <script>
 import Node from './components/Node.vue'
-import example from '../exmaples/5'
+import example from '../exmaples/4'
 
 export default {
   name: 'SimpleFlowChart',
   components: {
     Node
   },
+  props: {},
   data() {
     return {
       flowChart: example

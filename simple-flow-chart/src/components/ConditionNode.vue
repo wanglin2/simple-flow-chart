@@ -91,6 +91,7 @@ export default {
         }
       }
 
+      // 连接竖线和节点的水平线
       .sfcConditionNodeItemLinkLine {
         position: absolute;
         width: 30px;
@@ -105,6 +106,7 @@ export default {
         display: flex;
         align-items: center;
 
+        // 连接右侧水平线和短的分支节点的水平线
         .sfcConditionNodeItemLinkCrossLine {
           height: 2px;
           flex-grow: 1;
