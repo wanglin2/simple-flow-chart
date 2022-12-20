@@ -22,7 +22,6 @@ export default {
 <style lang="less" scoped>
 .sfcArrowLine {
   position: relative;
-  height: 100%;
   width: 65px;
   user-select: none;
 

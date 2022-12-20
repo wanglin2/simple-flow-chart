@@ -1,11 +1,19 @@
 <template>
   <div class="flowChartContainer">
-    <SimpleFlowChart></SimpleFlowChart>
+    <SimpleFlowChart :data="data"></SimpleFlowChart>
   </div>
 </template>
 
 <script>
-export default {}
+import example from '../exmaples/default'
+
+export default {
+  data() {
+    return {
+      data: example
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

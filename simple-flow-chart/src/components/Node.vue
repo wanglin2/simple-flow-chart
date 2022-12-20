@@ -33,6 +33,6 @@ export default {
 
 <style lang="less" scoped>
 .sfcNodeContainer {
-  flex-shrink: 0;
+  // flex-shrink: 0;
 }
 </style>

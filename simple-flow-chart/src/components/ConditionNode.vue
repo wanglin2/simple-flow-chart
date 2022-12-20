@@ -18,7 +18,7 @@
         <div class="sfcConditionNodeItemLinkLine"></div>
         <div class="sfcConditionNodeItemNodeWrap">
           <Node :data="node"></Node>
-          <!-- 连接右侧水平线和短的分支节点的水平线 -->
+          <!-- 连接较短分支和分支整体右侧的水平线 -->
           <div class="sfcConditionNodeItemLinkCrossLine"></div>
         </div>
       </div>
@@ -55,12 +55,27 @@ export default {
   align-items: center;
 
   .sfcConditionNodeItemList {
+    
     .sfcConditionNodeItem {
-      position: relative;
       padding: 30px;
       padding-right: 0;
+      position: relative;
 
-      // 头尾的竖线高度50%
+      // 中间的竖线高度100%
+      .sfcConditionNodeItemLine {
+        position: absolute;
+        height: 100%;
+        width: 2px;
+        left: 0px;
+        top: 0;
+        background-color: #dedede;
+        
+        &.sfcConditionNodeItemLastLine {
+          left: 100%;
+        }
+      }
+
+        // 头尾的竖线高度50%
       &:first-of-type {
         // 头部的竖线距顶部50%
         > .sfcConditionNodeItemLine {
@@ -74,20 +89,6 @@ export default {
         > .sfcConditionNodeItemLine {
           top: 0;
           height: 50%;
-        }
-      }
-
-      // 中间的竖线高度100%
-      .sfcConditionNodeItemLine {
-        position: absolute;
-        height: 100%;
-        width: 2px;
-        left: 0px;
-        top: 0;
-        background-color: #dedede;
-
-        &.sfcConditionNodeItemLastLine {
-          left: 100%;
         }
       }
 
@@ -106,7 +107,7 @@ export default {
         display: flex;
         align-items: center;
 
-        // 连接右侧水平线和短的分支节点的水平线
+        // 连接较短分支和分支整体右侧的水平线
         .sfcConditionNodeItemLinkCrossLine {
           height: 2px;
           flex-grow: 1;

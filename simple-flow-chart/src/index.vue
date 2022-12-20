@@ -1,24 +1,20 @@
 <template>
   <div class="sfcContainer">
     <div class="sfcContent">
-      <Node v-for="node in flowChart" :key="node.id" :data="node"></Node>
+      <Node v-for="node in data" :key="node.id" :data="node"></Node>
     </div>
   </div>
 </template>
 
 <script>
-import Node from './components/Node.vue'
-import example from '../exmaples/4'
-
 export default {
   name: 'SimpleFlowChart',
-  components: {
-    Node
-  },
-  props: {},
-  data() {
-    return {
-      flowChart: example
+  props: {
+    data: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   }
 }
