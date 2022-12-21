@@ -1,5 +1,9 @@
 <template>
-  <div class="sfcNodeContainer">
+  <div
+    class="sfcNodeContainer"
+    @mouseenter.stop="onMouseenter"
+    @mouseleave.stop="onMouseleave"
+  >
     <!-- 开始节点 -->
     <StartNode v-if="data.type === 'start'" :data="data"></StartNode>
     <!-- 结束节点 -->
@@ -8,9 +12,14 @@
     <ConditionNode
       v-else-if="data.type === 'condition'"
       :data="data"
+      :isMouseEnter="isMouseEnter || isCurrentMouseEnter"
     ></ConditionNode>
     <!-- 普通节点 -->
-    <NormalNode v-else :data="data"></NormalNode>
+    <NormalNode
+      v-else
+      :data="data"
+      :isMouseEnter="isMouseEnter || isCurrentMouseEnter"
+    ></NormalNode>
   </div>
 </template>
 
@@ -26,6 +35,24 @@ export default {
     data: {
       type: Object,
       default: null
+    },
+    isMouseEnter: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      isCurrentMouseEnter: false
+    }
+  },
+  methods: {
+    onMouseenter() {
+      this.isCurrentMouseEnter = true
+    },
+
+    onMouseleave() {
+      this.isCurrentMouseEnter = false
     }
   }
 }
@@ -34,5 +61,6 @@ export default {
 <style lang="less" scoped>
 .sfcNodeContainer {
   // flex-shrink: 0;
+  position: relative;
 }
 </style>

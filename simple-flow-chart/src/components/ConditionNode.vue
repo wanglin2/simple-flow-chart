@@ -17,18 +17,20 @@
         <!-- 连接竖线和节点的水平线 -->
         <div class="sfcConditionNodeItemLinkLine"></div>
         <div class="sfcConditionNodeItemNodeWrap">
-          <Node :data="node"></Node>
+          <Node :data="node" :isMouseEnter="isMouseEnter"></Node>
           <!-- 连接较短分支和分支整体右侧的水平线 -->
           <div class="sfcConditionNodeItemLinkCrossLine"></div>
         </div>
       </div>
     </div>
     <ArrowLine></ArrowLine>
+    <AddNode :btnType="isMouseEnter ? 'dot' : ''"></AddNode>
   </div>
 </template>
 
 <script>
 import ArrowLine from './ArrowLine.vue'
+import AddNode from './AddNode.vue'
 
 /**
  * @Author: 王林25
@@ -38,12 +40,17 @@ import ArrowLine from './ArrowLine.vue'
 export default {
   name: 'ConditionNode',
   components: {
-    ArrowLine
+    ArrowLine,
+    AddNode
   },
   props: {
     data: {
       type: Object,
       default: null
+    },
+    isMouseEnter: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -55,7 +62,6 @@ export default {
   align-items: center;
 
   .sfcConditionNodeItemList {
-    
     .sfcConditionNodeItem {
       padding: 30px;
       padding-right: 0;
@@ -69,13 +75,13 @@ export default {
         left: 0px;
         top: 0;
         background-color: #dedede;
-        
+
         &.sfcConditionNodeItemLastLine {
           left: 100%;
         }
       }
 
-        // 头尾的竖线高度50%
+      // 头尾的竖线高度50%
       &:first-of-type {
         // 头部的竖线距顶部50%
         > .sfcConditionNodeItemLine {

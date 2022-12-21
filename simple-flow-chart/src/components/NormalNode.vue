@@ -1,7 +1,11 @@
 <template>
   <div class="sfcNormalNodeContainer">
     <div class="sfcNormalNodeWrap">
-      <div class="sfcNormalNodeContent">
+      <div
+        class="sfcNormalNodeContent"
+        @mouseenter.stop="onContentMouseenter"
+        @mouseleave.stop="onContentMouseleave"
+      >
         <div class="sfcNormalNodeTitle">
           {{ data.title || '' }}
         </div>
@@ -15,13 +19,20 @@
         </div>
       </div>
       <ArrowLine></ArrowLine>
+      <AddNode :btnType="isMouseEnter ? 'dot' : ''"></AddNode>
     </div>
-    <Node v-for="node in (data.nodeList || [])" :key="node.id" :data="node"></Node>
+    <Node
+      v-for="node in data.nodeList || []"
+      :key="node.id"
+      :data="node"
+      :isMouseEnter="isMouseEnter"
+    ></Node>
   </div>
 </template>
 
 <script>
 import ArrowLine from './ArrowLine.vue'
+import AddNode from './AddNode.vue'
 
 /**
  * @Author: 王林25
@@ -31,13 +42,26 @@ import ArrowLine from './ArrowLine.vue'
 export default {
   name: 'NormalNode',
   components: {
-    ArrowLine
+    ArrowLine,
+    AddNode
   },
   props: {
     data: {
       type: Object,
       default: null
+    },
+    isMouseEnter: {
+      type: Boolean,
+      default: false
     }
+  },
+  data() {
+    return {}
+  },
+  methods: {
+    onContentMouseenter() {},
+
+    onContentMouseleave() {}
   }
 }
 </script>
@@ -50,6 +74,7 @@ export default {
   align-items: center;
 
   .sfcNormalNodeWrap {
+    position: relative;
     display: flex;
     align-items: center;
 
