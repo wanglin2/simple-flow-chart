@@ -19,11 +19,16 @@
         </div>
       </div>
       <ArrowLine></ArrowLine>
-      <AddNode :btnType="isMouseEnter ? 'dot' : ''"></AddNode>
+      <AddNode
+        :nodeList="nodeList"
+        :nodeData="data"
+        :btnType="isMouseEnter ? 'dot' : ''"
+      ></AddNode>
     </div>
     <Node
       v-for="node in data.nodeList || []"
       :key="node.id"
+      :nodeList="data.nodeList"
       :data="node"
       :isMouseEnter="isMouseEnter"
     ></Node>
@@ -46,6 +51,12 @@ export default {
     AddNode
   },
   props: {
+    nodeList: {
+      type: [Array, null],
+      default() {
+        return null
+      }
+    },
     data: {
       type: Object,
       default: null

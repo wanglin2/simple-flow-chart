@@ -1,5 +1,6 @@
 <template>
   <div class="sfcConditionNodeContainer">
+    <div class="sfcConditionAddBtn" @click="onAddConditionBranchClick">添加条件</div>
     <div class="sfcConditionNodeItemList">
       <div
         class="sfcConditionNodeItem"
@@ -17,20 +18,29 @@
         <!-- 连接竖线和节点的水平线 -->
         <div class="sfcConditionNodeItemLinkLine"></div>
         <div class="sfcConditionNodeItemNodeWrap">
-          <Node :data="node" :isMouseEnter="isMouseEnter"></Node>
+          <Node
+            :nodeList="null"
+            :data="node"
+            :isMouseEnter="isMouseEnter"
+          ></Node>
           <!-- 连接较短分支和分支整体右侧的水平线 -->
           <div class="sfcConditionNodeItemLinkCrossLine"></div>
         </div>
       </div>
     </div>
     <ArrowLine></ArrowLine>
-    <AddNode :btnType="isMouseEnter ? 'dot' : ''"></AddNode>
+    <AddNode
+      :nodeList="nodeList"
+      :nodeData="data"
+      :btnType="isMouseEnter ? 'dot' : ''"
+    ></AddNode>
   </div>
 </template>
 
 <script>
 import ArrowLine from './ArrowLine.vue'
 import AddNode from './AddNode.vue'
+import emitter from '../emit'
 
 /**
  * @Author: 王林25
@@ -44,6 +54,12 @@ export default {
     AddNode
   },
   props: {
+    nodeList: {
+      type: [Array, null],
+      default() {
+        return null
+      }
+    },
     data: {
       type: Object,
       default: null
@@ -52,14 +68,39 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  methods: {
+    onAddConditionBranchClick() {
+      emitter.emit('add-condition-branch-click', this.data)
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
 .sfcConditionNodeContainer {
+  position: relative;
   display: flex;
   align-items: center;
+
+  .sfcConditionAddBtn {
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 2px solid #dedede;
+    background: #fff;
+    border-radius: 18px;
+    color: #222;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 10px;
+    text-align: center;
+  }
 
   .sfcConditionNodeItemList {
     .sfcConditionNodeItem {

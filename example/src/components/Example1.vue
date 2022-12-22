@@ -1,6 +1,6 @@
 <template>
   <div class="flowChartContainer">
-    <SimpleFlowChart :data="data"></SimpleFlowChart>
+    <SimpleFlowChart v-model="data"></SimpleFlowChart>
   </div>
 </template>
 

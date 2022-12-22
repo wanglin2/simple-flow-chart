@@ -11,12 +11,14 @@
     <!-- 分支节点 -->
     <ConditionNode
       v-else-if="data.type === 'condition'"
+      :nodeList="nodeList"
       :data="data"
       :isMouseEnter="isMouseEnter || isCurrentMouseEnter"
     ></ConditionNode>
     <!-- 普通节点 -->
     <NormalNode
       v-else
+      :nodeList="nodeList"
       :data="data"
       :isMouseEnter="isMouseEnter || isCurrentMouseEnter"
     ></NormalNode>
@@ -32,6 +34,12 @@
 export default {
   name: 'Node',
   props: {
+    nodeList: {
+      type: [Array, null],
+      default() {
+        return null
+      }
+    },
     data: {
       type: Object,
       default: null
