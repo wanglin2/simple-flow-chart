@@ -5,6 +5,7 @@
         class="sfcNormalNodeContent"
         @mouseenter.stop="onContentMouseenter"
         @mouseleave.stop="onContentMouseleave"
+        @click.stop="onContentClick"
       >
         <div class="sfcNormalNodeTitle">
           {{ data.title || '' }}
@@ -38,6 +39,7 @@
 <script>
 import ArrowLine from './ArrowLine.vue'
 import AddNode from './AddNode.vue'
+import emitter from '../emit'
 
 /**
  * @Author: 王林25
@@ -72,7 +74,11 @@ export default {
   methods: {
     onContentMouseenter() {},
 
-    onContentMouseleave() {}
+    onContentMouseleave() {},
+
+    onContentClick() {
+      emitter.emit('node-content-click', this.data, this.nodeList)
+    }
   }
 }
 </script>
@@ -112,6 +118,7 @@ export default {
         color: #1f1f1f;
         font-weight: 600;
         word-break: break-all;
+        min-height: 20px;
       }
 
       .sfcNormalNodeData {

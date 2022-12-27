@@ -32,10 +32,12 @@ export default {
   created() {
     emitter.on('add-node-type-click', this.onAddNodeTypeClick)
     emitter.on('add-condition-branch-click', this.onAddConditionBranchClick)
+    emitter.on('node-content-click', this.onNodeContentClick)
   },
   beforeDestroy() {
     emitter.off('add-node-type-click', this.onAddNodeTypeClick)
     emitter.off('add-condition-branch-click', this.onAddConditionBranchClick)
+    emitter.off('node-content-click', this.onNodeContentClick)
   },
   methods: {
     onAddNodeTypeClick(nodeList, nodeData, type) {
@@ -57,6 +59,10 @@ export default {
     onAddConditionBranchClick(nodeData) {
       let newNode = generateNode('normal', '条件', '条件内容')
       nodeData.children.push(newNode)
+    },
+
+    onNodeContentClick(...args) {
+      this.$emit('node-content-click', ...args)
     }
   }
 }
