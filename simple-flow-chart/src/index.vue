@@ -1,12 +1,12 @@
 <template>
   <div class="sfcContainer">
     <div class="sfcContent">
-      <Node
+      <SFCNode
         v-for="node in data"
         :key="node.id"
         :nodeList="data"
         :data="node"
-      ></Node>
+      ></SFCNode>
     </div>
   </div>
 </template>
@@ -31,11 +31,13 @@ export default {
   },
   created() {
     emitter.on('add-node-type-click', this.onAddNodeTypeClick)
+    emitter.on('delete-node-click', this.onNodeDeleteClick)
     emitter.on('add-condition-branch-click', this.onAddConditionBranchClick)
     emitter.on('node-content-click', this.onNodeContentClick)
   },
   beforeDestroy() {
     emitter.off('add-node-type-click', this.onAddNodeTypeClick)
+    emitter.off('delete-node-click', this.onNodeDeleteClick)
     emitter.off('add-condition-branch-click', this.onAddConditionBranchClick)
     emitter.off('node-content-click', this.onNodeContentClick)
   },
@@ -47,12 +49,28 @@ export default {
 
     addNode(nodeList, nodeData, newNode) {
       if (nodeList) {
-        let index = nodeList.findIndex(item => {
-          return item === nodeData
-        })
+        let index = this.findNodeIndex(nodeList, nodeData)
         nodeList.splice(index + 1, 0, newNode)
       } else {
         nodeData.nodeList.unshift(newNode)
+      }
+    },
+
+    onNodeDeleteClick(
+      nodeList,
+      childrenList,
+      belongConditionNodeData,
+      nodeData
+    ) {
+      if (nodeList) {
+        let index = this.findNodeIndex(nodeList, nodeData)
+        nodeList.splice(index, 1)
+      } else if (childrenList) {
+        let index = this.findNodeIndex(childrenList, nodeData)
+        childrenList.splice(index, 1)
+        if (childrenList.length <= 1) {
+          this.removeNodeFromData(belongConditionNodeData)
+        }
       }
     },
 
@@ -63,6 +81,35 @@ export default {
 
     onNodeContentClick(...args) {
       this.$emit('node-content-click', ...args)
+    },
+
+    findNodeIndex(list, node) {
+      return list.findIndex(item => {
+        return item === node
+      })
+    },
+
+    removeNodeFromData(nodeData) {
+      let walk = arr => {
+        for (let i = 0; i < arr.length; i++) {
+          let node = arr[i]
+          if (node === nodeData) {
+            arr.splice(i, 1)
+            return true
+          }
+          let res = false
+          if (node.children && node.children.length > 0) {
+            res = walk(node.children)
+          }
+          if (!res && node.nodeList && node.nodeList.length > 0) {
+            res = walk(node.nodeList)
+          }
+          if (res) {
+            break
+          }
+        }
+      }
+      walk(this.data)
     }
   }
 }

@@ -1,22 +1,39 @@
 <template>
   <div class="sfcStartNodeContainer">
     <div class="sfcStartNodeContent">{{ data.title }}</div>
-    <ArrowLine></ArrowLine>
+    <SFCArrowLine></SFCArrowLine>
+    <SFCAddNode
+      :nodeList="nodeList"
+      :nodeData="data"
+      :btnType="isMouseEnter ? 'dot' : ''"
+    ></SFCAddNode>
   </div>
 </template>
 
 <script>
 import ArrowLine from './ArrowLine.vue'
+import AddNode from './AddNode.vue'
 
 export default {
-  name: 'StartNode',
+  name: 'SFCStartNode',
   components: {
-    ArrowLine
+    [ArrowLine.name]: ArrowLine,
+    [AddNode.name]: AddNode
   },
   props: {
+    nodeList: {
+      type: [Array, null],
+      default() {
+        return null
+      }
+    },
     data: {
       type: Object,
       default: null
+    },
+    isMouseEnter: {
+      type: Boolean,
+      default: false
     }
   }
 }

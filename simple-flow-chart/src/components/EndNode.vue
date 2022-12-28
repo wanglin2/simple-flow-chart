@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'EndNode',
+  name: 'SFCEndNode',
   props: {
     data: {
       type: Object,

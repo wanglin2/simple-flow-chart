@@ -5,23 +5,30 @@
     @mouseleave.stop="onMouseleave"
   >
     <!-- 开始节点 -->
-    <StartNode v-if="data.type === 'start'" :data="data"></StartNode>
+    <SFCStartNode
+      v-if="data.type === 'start'"
+      :nodeList="nodeList"
+      :data="data"
+      :isMouseEnter="isMouseEnter || isCurrentMouseEnter"
+    ></SFCStartNode>
     <!-- 结束节点 -->
-    <EndNode v-else-if="data.type === 'end'" :data="data"></EndNode>
+    <SFCEndNode v-else-if="data.type === 'end'" :data="data"></SFCEndNode>
     <!-- 分支节点 -->
-    <ConditionNode
+    <SFCConditionNode
       v-else-if="data.type === 'condition'"
       :nodeList="nodeList"
       :data="data"
       :isMouseEnter="isMouseEnter || isCurrentMouseEnter"
-    ></ConditionNode>
+    ></SFCConditionNode>
     <!-- 普通节点 -->
-    <NormalNode
+    <SFCNormalNode
       v-else
       :nodeList="nodeList"
+      :childrenList="childrenList"
       :data="data"
+      :belongConditionNodeData="belongConditionNodeData"
       :isMouseEnter="isMouseEnter || isCurrentMouseEnter"
-    ></NormalNode>
+    ></SFCNormalNode>
   </div>
 </template>
 
@@ -32,7 +39,7 @@
  * @Desc: 节点
  */
 export default {
-  name: 'Node',
+  name: 'SFCNode',
   props: {
     nodeList: {
       type: [Array, null],
@@ -40,7 +47,17 @@ export default {
         return null
       }
     },
+    childrenList: {
+      type: [Array, null],
+      default() {
+        return null
+      }
+    },
     data: {
+      type: Object,
+      default: null
+    },
+    belongConditionNodeData: {
       type: Object,
       default: null
     },

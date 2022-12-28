@@ -3,7 +3,9 @@
     "version": "0.0.1",
     "description": "一个基于Vue2的简单流程图设计组件",
     "main": "index.js",
-    "scripts": {},
+    "scripts": {
+        "format": "prettier --write src/* index.js"
+    },
     "authors": [
         {
             "name": "街角小林",
@@ -25,5 +27,8 @@
     "dependencies": {
         "tiny-emitter": "^2.1.0",
         "uuid": "^9.0.0"
+    },
+    "devDependencies": {
+        "prettier": "^2.8.1"
     }
 }

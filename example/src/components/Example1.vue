@@ -20,11 +20,7 @@
           </div>
         </div>
         <div class="nodeEditContent">
-          <el-input
-            type="textarea"
-            :rows="3"
-            v-model="editNodeData.content"
-          >
+          <el-input type="textarea" :rows="3" v-model="editNodeData.content">
           </el-input>
         </div>
       </div>
@@ -91,7 +87,6 @@ export default {
   }
 
   .nodeEditContent {
-    
   }
 }
 </style>

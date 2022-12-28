@@ -9,7 +9,7 @@
  * @Desc: 箭头线
  */
 export default {
-  name: 'ArrowLine',
+  name: 'SFCArrowLine',
   props: {
     showArrow: {
       type: Boolean,

@@ -1,6 +1,8 @@
 <template>
   <div class="sfcConditionNodeContainer">
-    <div class="sfcConditionAddBtn" @click="onAddConditionBranchClick">添加条件</div>
+    <div class="sfcConditionAddBtn" @click="onAddConditionBranchClick">
+      添加条件
+    </div>
     <div class="sfcConditionNodeItemList">
       <div
         class="sfcConditionNodeItem"
@@ -18,22 +20,24 @@
         <!-- 连接竖线和节点的水平线 -->
         <div class="sfcConditionNodeItemLinkLine"></div>
         <div class="sfcConditionNodeItemNodeWrap">
-          <Node
+          <SFCNode
             :nodeList="null"
+            :childrenList="data.children"
             :data="node"
+            :belongConditionNodeData="data"
             :isMouseEnter="isMouseEnter"
-          ></Node>
+          ></SFCNode>
           <!-- 连接较短分支和分支整体右侧的水平线 -->
           <div class="sfcConditionNodeItemLinkCrossLine"></div>
         </div>
       </div>
     </div>
-    <ArrowLine></ArrowLine>
-    <AddNode
+    <SFCArrowLine></SFCArrowLine>
+    <SFCAddNode
       :nodeList="nodeList"
       :nodeData="data"
       :btnType="isMouseEnter ? 'dot' : ''"
-    ></AddNode>
+    ></SFCAddNode>
   </div>
 </template>
 
@@ -48,10 +52,10 @@ import emitter from '../emit'
  * @Desc: 分支节点
  */
 export default {
-  name: 'ConditionNode',
+  name: 'SFCConditionNode',
   components: {
-    ArrowLine,
-    AddNode
+    [ArrowLine.name]: ArrowLine,
+    [AddNode.name]: AddNode
   },
   props: {
     nodeList: {
