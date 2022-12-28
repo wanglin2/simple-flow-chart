@@ -1,4 +1,9 @@
-export const defaultNodeList = []
+export const store = {}
+
+export const defaultNodeList = [
+  { id: 'startEvent', type: 'start', title: '开始' },
+  { id: 'endEvent', type: 'end', title: '结束' }
+]
 
 export const defaultNodeTypeList = [
   {

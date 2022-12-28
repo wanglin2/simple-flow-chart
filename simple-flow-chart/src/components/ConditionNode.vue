@@ -1,6 +1,10 @@
 <template>
   <div class="sfcConditionNodeContainer">
-    <div class="sfcConditionAddBtn" @click="onAddConditionBranchClick">
+    <div
+      class="sfcConditionAddBtn"
+      v-if="!readonly"
+      @click="onAddConditionBranchClick"
+    >
       添加条件
     </div>
     <div class="sfcConditionNodeItemList">
@@ -45,6 +49,7 @@
 import ArrowLine from './ArrowLine.vue'
 import AddNode from './AddNode.vue'
 import emitter from '../emit'
+import { store } from '../constant'
 
 /**
  * @Author: 王林25
@@ -71,6 +76,11 @@ export default {
     isMouseEnter: {
       type: Boolean,
       default: false
+    }
+  },
+  data() {
+    return {
+      readonly: store.readonly
     }
   },
   methods: {

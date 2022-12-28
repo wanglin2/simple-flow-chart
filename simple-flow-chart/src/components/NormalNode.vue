@@ -9,7 +9,7 @@
       >
         <SFCNodeContent :data="data"></SFCNodeContent>
         <SFCDeleteNode
-          v-if="showDeleteBtn"
+          v-if="showDeleteBtn && !readonly"
           @click="onDeleteNode"
         ></SFCDeleteNode>
       </div>
@@ -34,6 +34,7 @@
 import ArrowLine from './ArrowLine.vue'
 import AddNode from './AddNode.vue'
 import emitter from '../emit'
+import { store } from '../constant'
 
 /**
  * @Author: 王林25
@@ -74,6 +75,7 @@ export default {
   },
   data() {
     return {
+      readonly: store.readonly,
       showDeleteBtn: false
     }
   },

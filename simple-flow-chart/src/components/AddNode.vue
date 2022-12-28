@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="!readonly"
     class="sfcAddNode"
     @mouseenter.stop="onMouseenter"
     @mouseleave.stop="onMouseleave"
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import { defaultNodeTypeList } from '../constant'
+import { store } from '../constant'
 import emitter from '../emit'
 
 export default {
@@ -56,8 +57,8 @@ export default {
   },
   data() {
     return {
+      readonly: store.readonly,
       addNodeBtnType: '',
-      nodeTypeList: defaultNodeTypeList,
       showNodeTypePopover: false,
       nodeTypePopoverStyle: {}
     }

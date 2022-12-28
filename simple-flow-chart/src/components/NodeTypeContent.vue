@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import { defaultNodeTypeList } from '../constant'
+import { defaultNodeTypeList, store } from '../constant'
 
 export default {
   name: 'SFCNodeTypeContent',
   data() {
     return {
-      nodeTypeList: defaultNodeTypeList
+      nodeTypeList: store.nodeTypeList || defaultNodeTypeList
     }
   },
   methods: {

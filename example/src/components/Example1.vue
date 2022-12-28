@@ -2,8 +2,12 @@
   <div class="flowChartContainer">
     <SimpleFlowChart
       v-model="data"
+      :readonly="false"
+      :beforeDeleteNode="beforeDeleteNode"
+      :nodeTypeList="nodeTypeList"
       @node-content-click="onNodeContentClick"
-    ></SimpleFlowChart>
+    >
+    </SimpleFlowChart>
     <el-drawer :visible.sync="showNodeEdit" :with-header="false">
       <div class="nodeEditBox" v-if="showNodeEdit">
         <div class="nodeEditTitle">
@@ -30,7 +34,7 @@
 
 <script>
 import example from '../exmaples/default'
-import { Drawer, Dialog, Icon, Input } from 'element-ui'
+import { Drawer, Dialog, Icon, Input, MessageBox } from 'element-ui'
 
 export default {
   components: {
@@ -44,10 +48,39 @@ export default {
       data: example,
       showNodeEdit: false,
       editNodeData: null,
-      isEditingTitle: false
+      isEditingTitle: false,
+      nodeTypeList: [
+        {
+          name: '普通节点',
+          list: [
+            {
+              type: 'normal',
+              name: '普通节点'
+            }
+          ]
+        },
+        {
+          name: '分支节点',
+          list: [
+            {
+              type: 'condition',
+              name: '条件分支'
+            }
+          ]
+        }
+      ]
     }
   },
   methods: {
+    beforeDeleteNode(...args) {
+      console.log(args)
+      return MessageBox.confirm('确定删除该节点？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+    },
+
     onNodeContentClick(node) {
       console.log(node)
       this.editNodeData = node

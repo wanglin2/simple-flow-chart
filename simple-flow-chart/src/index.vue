@@ -1,5 +1,5 @@
 <template>
-  <div class="sfcContainer">
+  <div class="sfcContainer" :style="{ background: background }">
     <div class="sfcContent">
       <SFCNode
         v-for="node in data"
@@ -14,6 +14,7 @@
 <script>
 import emitter from './emit'
 import { generateNode } from './utils'
+import { store, defaultNodeList } from './constant'
 
 export default {
   name: 'SimpleFlowChart',
@@ -27,9 +28,34 @@ export default {
       default() {
         return []
       }
+    },
+    customCreateNode: {
+      type: Function
+    },
+    customCreateConditionBranchNode: {
+      type: Function
+    },
+    beforeDeleteNode: {
+      type: Function
+    },
+    background: {
+      type: String,
+      default: 'rgba(0, 0, 0, 0.03)'
+    },
+    readonly: {
+      type: Boolean,
+      default: false
+    },
+    nodeTypeList: {
+      type: Array
     }
   },
   created() {
+    store.readonly = this.readonly
+    store.nodeTypeList = this.nodeTypeList
+    if (this.data.length <= 0) {
+      this.data.push(...defaultNodeList)
+    }
     emitter.on('add-node-type-click', this.onAddNodeTypeClick)
     emitter.on('delete-node-click', this.onNodeDeleteClick)
     emitter.on('add-condition-branch-click', this.onAddConditionBranchClick)
@@ -43,8 +69,15 @@ export default {
   },
   methods: {
     onAddNodeTypeClick(nodeList, nodeData, type) {
-      let newNode = generateNode(type.type)
+      let newNode = null
+      if (this.customCreateNode) {
+        newNode = this.customCreateNode(nodeList, nodeData, type)
+      }
+      if (!newNode) {
+        newNode = generateNode(type.type)
+      }
       this.addNode(nodeList, nodeData, newNode)
+      this.$emit('add-node', newNode)
     },
 
     addNode(nodeList, nodeData, newNode) {
@@ -56,12 +89,18 @@ export default {
       }
     },
 
-    onNodeDeleteClick(
-      nodeList,
-      childrenList,
-      belongConditionNodeData,
-      nodeData
-    ) {
+    onNodeDeleteClick(...args) {
+      if (this.beforeDeleteNode) {
+        this.beforeDeleteNode(...args).then(() => {
+          this.deleteNode(...args)
+        })
+      } else {
+        this.deleteNode(...args)
+        this.$emit('delete-node', args[3])
+      }
+    },
+
+    deleteNode(nodeList, childrenList, belongConditionNodeData, nodeData) {
       if (nodeList) {
         let index = this.findNodeIndex(nodeList, nodeData)
         nodeList.splice(index, 1)
@@ -75,8 +114,15 @@ export default {
     },
 
     onAddConditionBranchClick(nodeData) {
-      let newNode = generateNode('normal', '条件', '条件内容')
+      let newNode = null
+      if (this.customCreateConditionBranchNode) {
+        newNode = this.customCreateConditionBranchNode(nodeData)
+      }
+      if (!newNode) {
+        newNode = generateNode('normal', '条件', '条件内容')
+      }
       nodeData.children.push(newNode)
+      this.$emit('add-condition-branch', newNode)
     },
 
     onNodeContentClick(...args) {
@@ -121,7 +167,6 @@ export default {
   height: 100%;
   overflow: auto;
   box-sizing: border-box;
-  background: rgba(0, 0, 0, 0.03);
 
   /deep/ * {
     box-sizing: border-box;
