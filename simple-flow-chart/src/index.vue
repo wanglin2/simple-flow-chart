@@ -65,7 +65,10 @@ export default {
     showScaleBar: {
       type: Boolean,
       default: true
-    }
+    },
+    customCreateNodeId: {
+      type: Function
+    },
   },
   data() {
     return {
@@ -76,6 +79,7 @@ export default {
     store.readonly = this.readonly
     store.nodeTypeList = this.nodeTypeList
     store.vertical = this.vertical
+    store.customCreateNodeId = this.customCreateNodeId
     if (this.data.length <= 0) {
       this.data.push(...defaultNodeList)
     }
