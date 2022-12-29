@@ -13,6 +13,7 @@ npm i @wanglin1994/simple-flow-chart
 ```js
 import SimpleFlowChart from '@wanglin1994/simple-flow-chart'
 
+
 Vue.use(SimpleFlowChart, {
   notRegisterNodeContent: false, // 如果需要自己编写节点内容组件，设为true
   notRegisterNodeTypeContent: false // 如果需要自己编写添加节点的悬浮面板组件，设为true

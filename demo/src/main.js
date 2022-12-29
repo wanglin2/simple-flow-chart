@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import SimpleFlowChart from '@wanglin1994/simple-flow-chart'
+// import '@wanglin1994/simple-flow-chart/dist/simpleFlowChart.css'
 // import CustomNodeContent from './components/CustomNodeContent'
 // import CustomNodeTypeContent from './components/CustomNodeTypeContent'
 

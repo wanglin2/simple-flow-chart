@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "buildLibrary": "vue-cli-service build --target lib --name simpleFlowChart ../simple-flow-chart/index.js --dest ../simple-flow-chart/dist",
     "lint": "vue-cli-service lint",
     "format": "prettier --write src/*"
   },
