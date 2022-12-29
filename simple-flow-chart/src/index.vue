@@ -1,6 +1,11 @@
 <template>
   <div class="sfcContainer" :style="{ background: background }">
-    <div class="sfcContent" :class="{ vertical: vertical }">
+    <SFCActionBar :scale.sync="scale" v-if="showScaleBar"></SFCActionBar>
+    <div
+      class="sfcContent"
+      :class="{ vertical: vertical, transformOriginCenter: scale <= 100 }"
+      :style="{ transform: `scale(${scale / 100})` }"
+    >
       <SFCNode
         v-for="node in data"
         :key="node.id"
@@ -15,9 +20,13 @@
 import emitter from './emit'
 import { generateNode } from './utils'
 import { store, defaultNodeList } from './constant'
+import ActionBar from './components/ActionBar.vue'
 
 export default {
   name: 'SimpleFlowChart',
+  components: {
+    [ActionBar.name]: ActionBar
+  },
   model: {
     prop: 'data',
     event: 'change'
@@ -52,6 +61,15 @@ export default {
     vertical: {
       type: Boolean,
       default: false
+    },
+    showScaleBar: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data() {
+    return {
+      scale: 100
     }
   },
   created() {
@@ -187,6 +205,11 @@ export default {
     min-height: 100%;
     width: max-content;
     height: max-content;
+    transform-origin: left top;
+
+    &.transformOriginCenter {
+      transform-origin: center center;
+    }
 
     &.vertical {
       flex-direction: column;
