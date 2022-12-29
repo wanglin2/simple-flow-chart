@@ -1,5 +1,5 @@
 <template>
-  <div class="sfcConditionNodeContainer">
+  <div class="sfcConditionNodeContainer" :class="{ vertical: vertical }">
     <div
       class="sfcConditionAddBtn"
       v-if="!readonly"
@@ -80,7 +80,8 @@ export default {
   },
   data() {
     return {
-      readonly: store.readonly
+      readonly: store.readonly,
+      vertical: store.vertical
     }
   },
   methods: {
@@ -96,6 +97,91 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
+
+  &.vertical {
+    flex-direction: column;
+
+    .sfcConditionAddBtn {
+      left: 50%;
+      top: -18px;
+      transform: translateX(-50%);
+      width: auto;
+      height: 36px;
+      padding-top: 0;
+      padding-bottom: 0;
+      line-height: 32px;
+    }
+
+    .sfcConditionNodeItemList {
+      display: flex;
+
+      .sfcConditionNodeItem {
+        padding-right: 30px;
+        padding-bottom: 0;
+
+        // 中间的竖线高度100%
+        .sfcConditionNodeItemLine {
+          height: 2px;
+          width: 100%;
+          top: 0px;
+          left: 0;
+
+          &.sfcConditionNodeItemLastLine {
+            left: 0;
+            top: 100%;
+          }
+        }
+
+        // 头尾的竖线高度50%
+        &:first-of-type {
+          // 头部的竖线距顶部50%
+          > .sfcConditionNodeItemLine {
+            left: 50%;
+            width: 50%;
+            height: 2px;
+            top: 0;
+
+            &.sfcConditionNodeItemLastLine {
+              top: 100%;
+            }
+          }
+        }
+
+        &:last-of-type {
+          // 尾部的竖线距顶部0
+          > .sfcConditionNodeItemLine {
+            left: 0;
+            width: 50%;
+            height: 2px;
+            top: 0;
+
+            &.sfcConditionNodeItemLastLine {
+              top: 100%;
+            }
+          }
+        }
+
+        // 连接竖线和节点的水平线
+        .sfcConditionNodeItemLinkLine {
+          height: 30px;
+          width: 2px;
+          top: 0px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        .sfcConditionNodeItemNodeWrap {
+          flex-direction: column;
+          height: 100%;
+
+          // 连接较短分支和分支整体右侧的水平线
+          .sfcConditionNodeItemLinkCrossLine {
+            width: 2px;
+          }
+        }
+      }
+    }
+  }
 
   .sfcConditionAddBtn {
     position: absolute;

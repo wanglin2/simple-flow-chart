@@ -1,8 +1,13 @@
 <template>
-  <div class="sfcArrowLine" :class="{ showArrow: showArrow }"></div>
+  <div
+    class="sfcArrowLine"
+    :class="{ showArrow: showArrow, vertical: vertical }"
+  ></div>
 </template>
 
 <script>
+import { store } from '../constant'
+
 /**
  * @Author: 王林25
  * @Date: 2022-12-15 16:34:15
@@ -15,6 +20,11 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  data() {
+    return {
+      vertical: store.vertical
+    }
   }
 }
 </script>
@@ -25,7 +35,31 @@ export default {
   width: 65px;
   user-select: none;
 
-  &:before {
+  &.vertical {
+    width: auto;
+    height: 65px;
+
+    &::before {
+      width: 2px;
+      height: 100%;
+      transform: translateX(-50%);
+    }
+
+    &.showArrow {
+      &::after {
+        right: auto;
+        bottom: 0;
+        top: auto;
+        border-top: 10px solid #dedede;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: none;
+        transform: translateX(-50%);
+      }
+    }
+  }
+
+  &::before {
     position: absolute;
     z-index: 0;
     top: 0;
@@ -38,7 +72,7 @@ export default {
   }
 
   &.showArrow {
-    &:after {
+    &::after {
       position: absolute;
       width: 0;
       height: 0;

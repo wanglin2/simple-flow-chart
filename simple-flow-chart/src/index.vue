@@ -1,6 +1,6 @@
 <template>
   <div class="sfcContainer" :style="{ background: background }">
-    <div class="sfcContent">
+    <div class="sfcContent" :class="{ vertical: vertical }">
       <SFCNode
         v-for="node in data"
         :key="node.id"
@@ -48,11 +48,16 @@ export default {
     },
     nodeTypeList: {
       type: Array
+    },
+    vertical: {
+      type: Boolean,
+      default: false
     }
   },
   created() {
     store.readonly = this.readonly
     store.nodeTypeList = this.nodeTypeList
+    store.vertical = this.vertical
     if (this.data.length <= 0) {
       this.data.push(...defaultNodeList)
     }
@@ -182,6 +187,11 @@ export default {
     min-height: 100%;
     width: max-content;
     height: max-content;
+
+    &.vertical {
+      flex-direction: column;
+      justify-content: center;
+    }
   }
 }
 </style>

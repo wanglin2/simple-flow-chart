@@ -1,5 +1,5 @@
 <template>
-  <div class="sfcStartNodeContainer">
+  <div class="sfcStartNodeContainer" :class="{ vertical: vertical }">
     <div class="sfcStartNodeContent">{{ data.title }}</div>
     <SFCArrowLine></SFCArrowLine>
     <SFCAddNode
@@ -13,6 +13,7 @@
 <script>
 import ArrowLine from './ArrowLine.vue'
 import AddNode from './AddNode.vue'
+import { store } from '../constant'
 
 export default {
   name: 'SFCStartNode',
@@ -35,6 +36,11 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  data() {
+    return {
+      vertical: store.vertical
+    }
   }
 }
 </script>
@@ -43,6 +49,10 @@ export default {
 .sfcStartNodeContainer {
   display: flex;
   align-items: center;
+
+  &.vertical {
+    flex-direction: column;
+  }
 
   .sfcStartNodeContent {
     width: 90px;

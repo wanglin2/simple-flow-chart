@@ -1,5 +1,5 @@
 <template>
-  <div class="sfcNormalNodeContainer">
+  <div class="sfcNormalNodeContainer" :class="{ vertical: vertical }">
     <div class="sfcNormalNodeWrap">
       <div
         class="sfcNormalNodeContentWrap"
@@ -76,6 +76,7 @@ export default {
   data() {
     return {
       readonly: store.readonly,
+      vertical: store.vertical,
       showDeleteBtn: false
     }
   },
@@ -111,6 +112,14 @@ export default {
   display: flex;
   flex-shrink: 0;
   align-items: center;
+
+  &.vertical {
+    flex-direction: column;
+
+    .sfcNormalNodeWrap {
+      flex-direction: column;
+    }
+  }
 
   .sfcNormalNodeWrap {
     position: relative;

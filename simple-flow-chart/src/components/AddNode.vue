@@ -2,6 +2,7 @@
   <div
     v-if="!readonly"
     class="sfcAddNode"
+    :class="{ vertical: vertical }"
     @mouseenter.stop="onMouseenter"
     @mouseleave.stop="onMouseleave"
   >
@@ -58,6 +59,7 @@ export default {
   data() {
     return {
       readonly: store.readonly,
+      vertical: store.vertical,
       addNodeBtnType: '',
       showNodeTypePopover: false,
       nodeTypePopoverStyle: {}
@@ -144,6 +146,15 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &.vertical {
+    right: auto;
+    top: auto;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 65px;
+  }
 
   .sfcAddNodeBtn {
     position: relative;

@@ -5,6 +5,7 @@
       :readonly="false"
       :beforeDeleteNode="beforeDeleteNode"
       :nodeTypeList="nodeTypeList"
+      :vertical="false"
       @node-content-click="onNodeContentClick"
     >
     </SimpleFlowChart>
