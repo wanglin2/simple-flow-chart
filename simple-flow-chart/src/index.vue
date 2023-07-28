@@ -1,5 +1,5 @@
 <template>
-  <div class="sfcContainer" :style="{ background: background }">
+  <div class="sfcContainer" ref="sfcContainer" :style="{ background: background }">
     <SFCActionBar :scale.sync="scale" v-if="showScaleBar"></SFCActionBar>
     <div
       class="sfcContent"
@@ -13,6 +13,7 @@
         :data="node"
       ></SFCNode>
     </div>
+    <div v-if="showHideDiv"></div>
   </div>
 </template>
 
@@ -72,9 +73,15 @@ export default {
   },
   data() {
     return {
-      scale: 100
+      scale: 100,
+      showHideDiv: false
     }
   },
+  watch: {
+    scale() {
+      this.showHideDiv = !this.showHideDiv
+    }
+  },  
   created() {
     store.readonly = this.readonly
     store.nodeTypeList = this.nodeTypeList
