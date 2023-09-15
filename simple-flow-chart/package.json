@@ -1,6 +1,6 @@
 {
     "name": "@wanglin1994/simple-flow-chart",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "一个基于Vue2的简单流程图设计组件",
     "main": "./dist/simpleFlowChart.umd.min.js",
     "module": "index.js",

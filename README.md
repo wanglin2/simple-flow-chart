@@ -103,6 +103,16 @@ Vue.use(SimpleFlowChart, {
 
 `SimpleFlowChart`组件还支持以下属性：
 
+### enableDrag
+
+> v0.0.3+
+
+类型：`Boolean`，默认为`true`
+
+是否必传：否
+
+是否开启按住画布拖拽功能。
+
 ### customCreateNode
 
 类型：`Function`

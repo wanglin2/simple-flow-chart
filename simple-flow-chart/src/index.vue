@@ -1,5 +1,10 @@
 <template>
-  <div class="sfcContainer" ref="sfcContainer" :style="{ background: background }">
+  <div
+    class="sfcContainer"
+    ref="sfcContainer"
+    :style="{ background: background }"
+    @mousedown="onMousedown"
+  >
     <SFCActionBar :scale.sync="scale" v-if="showScaleBar"></SFCActionBar>
     <div
       class="sfcContent"
@@ -70,18 +75,31 @@ export default {
     customCreateNodeId: {
       type: Function
     },
+    enableDrag: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
       scale: 100,
-      showHideDiv: false
+      showHideDiv: false,
+      isMousedown: false,
+      mousedownPos: {
+        x: 0,
+        y: 0
+      },
+      mousedownScrollPos: {
+        x: 0,
+        y: 0
+      }
     }
   },
   watch: {
     scale() {
       this.showHideDiv = !this.showHideDiv
     }
-  },  
+  },
   created() {
     store.readonly = this.readonly
     store.nodeTypeList = this.nodeTypeList
@@ -94,12 +112,16 @@ export default {
     emitter.on('delete-node-click', this.onNodeDeleteClick)
     emitter.on('add-condition-branch-click', this.onAddConditionBranchClick)
     emitter.on('node-content-click', this.onNodeContentClick)
+    window.addEventListener('mousemove', this.onMousemove)
+    window.addEventListener('mouseup', this.onMouseup)
   },
   beforeDestroy() {
     emitter.off('add-node-type-click', this.onAddNodeTypeClick)
     emitter.off('delete-node-click', this.onNodeDeleteClick)
     emitter.off('add-condition-branch-click', this.onAddConditionBranchClick)
     emitter.off('node-content-click', this.onNodeContentClick)
+    window.removeEventListener('mousemove', this.onMousemove)
+    window.removeEventListener('mouseup', this.onMouseup)
   },
   methods: {
     onAddNodeTypeClick(nodeList, nodeData, type) {
@@ -190,6 +212,26 @@ export default {
         }
       }
       walk(this.data)
+    },
+
+    onMousedown(e) {
+      this.isMousedown = true
+      this.mousedownPos.x = e.clientX
+      this.mousedownPos.y = e.clientY
+      this.mousedownScrollPos.x = this.$refs.sfcContainer.scrollLeft
+      this.mousedownScrollPos.y = this.$refs.sfcContainer.scrollTop
+    },
+
+    onMousemove(e) {
+      if (!this.isMousedown || !this.$refs.sfcContainer || !this.enableDrag) return
+      e.preventDefault()
+      let nx = this.mousedownScrollPos.x - (e.clientX - this.mousedownPos.x)
+      let ny = this.mousedownScrollPos.y - (e.clientY - this.mousedownPos.y)
+      this.$refs.sfcContainer.scrollTo(nx, ny)
+    },
+
+    onMouseup() {
+      this.isMousedown = false
     }
   }
 }
