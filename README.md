@@ -6,8 +6,6 @@
 npm i @wanglin1994/simple-flow-chart
 ```
 
-
-
 ## 引入
 
 ```js
@@ -102,6 +100,24 @@ Vue.use(SimpleFlowChart, {
 ```
 
 `SimpleFlowChart`组件还支持以下属性：
+
+### initFit
+
+> v0.0.4+
+
+类型：`Boolean`，默认为`false`
+
+是否在第一次渲染时将流程图自动缩放至全部显示。
+
+如果你想在容器大小改变后自动缩放，那么需要手动调用组件实例的`fit()`方法。
+
+### showScrollBar
+
+> v0.0.4+
+
+类型：`Boolean`，默认为`true`
+
+是否显示滚动条。
 
 ### enableDrag
 
@@ -236,7 +252,13 @@ Vue.use(SimpleFlowChart, {
 
 自定义创建节点的唯一的`id`。
 
+## 方法
 
+### fit()
+
+> v0.0.4+
+
+将流程图缩放至全部显示。
 
 ## 事件
 
@@ -276,7 +298,7 @@ Vue.use(SimpleFlowChart, {
 
 
 
-## 自定义节点、
+## 自定义节点
 
 如果想自定义节点的样式，首先需要在注册组件时传入如下选项：
 

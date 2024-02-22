@@ -12,7 +12,7 @@
           ></path>
         </svg>
       </div>
-      <div class="sfcActionScaleNum">{{ scale }}%</div>
+      <div class="sfcActionScaleNum">{{ scale.toFixed(0) }}%</div>
       <div class="sfcActionScaleBtn" @click="scaleOut">
         <svg
           viewBox="0 0 1024 1024"

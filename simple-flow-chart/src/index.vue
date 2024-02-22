@@ -3,10 +3,12 @@
     class="sfcContainer"
     ref="sfcContainer"
     :style="{ background: background }"
+    :class="{ showScrollBar: showScrollBar }"
     @mousedown="onMousedown"
   >
     <SFCActionBar :scale.sync="scale" v-if="showScaleBar"></SFCActionBar>
     <div
+      ref="sfcContent"
       class="sfcContent"
       :class="{ vertical: vertical, transformOriginCenter: scale <= 100 }"
       :style="{ transform: `scale(${scale / 100})` }"
@@ -78,6 +80,14 @@ export default {
     enableDrag: {
       type: Boolean,
       default: true
+    },
+    initFit: {
+      type: Boolean,
+      default: false
+    },
+    showScrollBar: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -115,6 +125,11 @@ export default {
     window.addEventListener('mousemove', this.onMousemove)
     window.addEventListener('mouseup', this.onMouseup)
   },
+  mounted() {
+    if (this.initFit) {
+      this.fit()
+    }
+  },
   beforeDestroy() {
     emitter.off('add-node-type-click', this.onAddNodeTypeClick)
     emitter.off('delete-node-click', this.onNodeDeleteClick)
@@ -124,6 +139,32 @@ export default {
     window.removeEventListener('mouseup', this.onMouseup)
   },
   methods: {
+    // 缩放至全部显示
+    fit() {
+      this.scale = 100
+      this.$nextTick(() => {
+        const containerSize = this.$refs.sfcContainer.getBoundingClientRect()
+        const containerRatio = containerSize.width / containerSize.height
+        const contentSize = this.$refs.sfcContent.getBoundingClientRect()
+        const contentRatio = contentSize.width / contentSize.height
+        let w, h
+        if (containerRatio > contentRatio) {
+          // 以容器的高为准
+          h = containerSize.height
+          w = contentRatio * h
+        } else {
+          // 以容器的宽为准
+          w = containerSize.width
+          h = w / contentRatio
+        }
+        this.scale = (w / contentSize.width) * 100
+        console.log(contentSize.width, containerSize.width)
+        const x = (contentSize.width - containerSize.width) / 2
+        const y = (contentSize.height - containerSize.height) / 2
+        this.$refs.sfcContainer.scrollTo(x, y)
+      })
+    },
+
     onAddNodeTypeClick(nodeList, nodeData, type) {
       let newNode = null
       if (this.customCreateNode) {
@@ -223,7 +264,8 @@ export default {
     },
 
     onMousemove(e) {
-      if (!this.isMousedown || !this.$refs.sfcContainer || !this.enableDrag) return
+      if (!this.isMousedown || !this.$refs.sfcContainer || !this.enableDrag)
+        return
       e.preventDefault()
       let nx = this.mousedownScrollPos.x - (e.clientX - this.mousedownPos.x)
       let ny = this.mousedownScrollPos.y - (e.clientY - this.mousedownPos.y)
@@ -241,8 +283,12 @@ export default {
 .sfcContainer {
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   box-sizing: border-box;
+
+  &.showScrollBar {
+    overflow: auto;
+  }
 
   /deep/ * {
     box-sizing: border-box;

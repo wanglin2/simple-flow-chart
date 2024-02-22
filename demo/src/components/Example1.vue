@@ -1,7 +1,11 @@
 <template>
   <div class="flowChartContainer">
     <SimpleFlowChart
+      ref="SimpleFlowChart"
       v-model="data"
+      :initFit="true"
+      :enableDrag="true"
+      :showScrollBar="true"
       :readonly="false"
       :beforeDeleteNode="beforeDeleteNode"
       :nodeTypeList="nodeTypeList"
@@ -72,6 +76,9 @@ export default {
       ]
     }
   },
+  mounted() {
+    window.addEventListener('resize', this.onResize)
+  },
   methods: {
     beforeDeleteNode(...args) {
       console.log(args)
@@ -86,6 +93,10 @@ export default {
       console.log(node)
       this.editNodeData = node
       this.showNodeEdit = true
+    },
+
+    onResize() {
+      this.$refs.SimpleFlowChart.fit()
     }
   }
 }
