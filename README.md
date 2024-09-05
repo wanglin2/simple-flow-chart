@@ -1,5 +1,11 @@
 # 一个基于Vue2的极简流程设计组件
 
+> 如果需要在`React`项目中使用，可以移步`kne-union`实现的`react`版本：
+> 
+> 项目地址：https://github.com/kne-union/react-flow-chart
+>
+> 在线文档和示例：https://www.kne-union.top/#/libs/ReactFlowChart
+
 ## 安装
 
 ```bash
